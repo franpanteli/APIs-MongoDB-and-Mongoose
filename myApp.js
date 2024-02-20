@@ -8,7 +8,7 @@ const Schema = mongoose.Schema;
 // Question 1, Install and Set Up Mongoose - this line of code uses the connect method to link the app to the MongoDB Atlas database which was set up for it
 mongoose.connect('mongodb+srv://franpanteli:panteli%40panteli@franpanteli.aqokq0o.mongodb.net/?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true });
 
-// Question 2
+// Question 2, define the personSchema schema 
 /*
 	This solution at first glance: 
 		-> We are writing a block of code which sets a schema 
@@ -57,15 +57,40 @@ const personSchema = new Schema({
 
 let Person = mongoose.model("Person", personSchema);
 
+/*
+	Question 3, creating and saving a document from the person schema 
 
-
-
-
-
-
-
-
-
+	This solution at first glance: 
+		-> We are creating a person from the model 
+		-> We first created a schema, then a model, then documents (instances) that we could use within it 
+		-> This is us creating a person using the model 
+		-> We also need to save the person 
+		-> The first block of code creates the person 
+			-> This creates the person like you would create an instance of a class in Python (but we are using js)
+		-> The second block of code saves the person 
+			-> This takes an error message / argument as the data
+			-> We are making sure that the person we are defining has the same syntax as in the model which this was originally defined for 
+	
+	More technically:
+		-> All schema here were defined in Mongoose 
+		-> We are first creating an instance of the Person model using the schema from earlier 
+			-> To do this, we are giving the code information about the attributes of the person for the model 
+		-> Then we save the person 
+			-> We are saving them to the database which is linked to at the top of the myApp.js file and in the .env file for the project in this repository 
+			-> Save is a method which we are calling on the instance of the model -> this saves the person to our database 
+				-> The argument of the save function is an error parameter, combined with the data which we are operating on 
+				-> The first argument is err -> and if there is an error, then the first line inside the second block of code is logging this to the console 
+				-> If there is no error, then the argument of the third line in the second block of code is null and the data is returned 
+				-> That first argument represents the error (we are logging that there is no error in the save in this case) 
+			-> done() 
+				-> This is called once the save function is complete -> this is used to notify the caller when the operation is done when performing asynchronous operations  
+				-> This is also for Node.js 
+	-> We have 
+		-> Created a new instance of a person 
+		-> This has specific attributes (like objects in a Python class)
+		-> We are then saving this person to the MongoDB database using Mongoose 
+		-> Then we are using the done callback to handle the result from this
+*/
 
 const createAndSavePerson = (done) => {
   const fran = new Person({
@@ -73,11 +98,25 @@ const createAndSavePerson = (done) => {
     age: 23,
     favoriteFoods: ["dark chocolate", "seeds", "vanilla yogurt"]
   })
-  amir.save(function(err, data) {
+  fran.save(function(err, data) {
     if (err) return console.error(err);
     done(null , data);
   })
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 const createManyPeople = (arrayOfPeople, done) => {
