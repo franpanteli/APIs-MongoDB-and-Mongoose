@@ -1,7 +1,53 @@
 require('dotenv').config();
+
+// Question 1, Install and Set Up Mongoose - require mongoose as mongoose
 let mongoose = require('mongoose')
+
 const Schema = mongoose.Schema;
-mongoose.connect('mongodb+srv://admin:Adminmongodb@cluster0.lsljwqu.mongodb.net/?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true });
+
+// Question 1, Install and Set Up Mongoose - this line of code uses the connect method to link the app to the MongoDB Atlas database which was set up for it
+mongoose.connect('mongodb+srv://franpanteli:panteli%40panteli@franpanteli.aqokq0o.mongodb.net/?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true });
+
+// Question 2
+/*
+	This solution at first glance: 
+		-> We are writing a block of code which sets a schema 
+ 		-> The schema that we are setting is for people
+		-> We can define instances of people using this schema 
+		-> We define this new schema using new Schema {}
+		-> Each of the elements in this schema contains the different attributes of a person (their name, age and favourite foods)
+		-> We are also defining the syntax for this 
+			-> The name of the person is contained in a JSON object 
+				-> The type of this is a string 
+				-> The person cannot be stored without a name -> but they can be stored without the other information here 
+			-> The ages of the people are numbers 
+			-> The favoriteFoods of the person is listed in a string 
+		-> We are then setting up the model 
+			-> This syntax is used to do this -> let Person = mongoose.model("Person", personSchema);
+			-> We are setting the variable Person equal to the Mongoose model defined with the person schema
+			-> The first argument which is used in this is the same as the name of the variable which it's been set equal to
+
+	More technically:
+		-> We are creating a Mongoose schema and creating a Mongoose model based on the schema 
+		-> Schemas are like blueprints for models -> we define the schemas
+		-> And then we can create instances of those schemas which are models 
+		-> The schema for a person <- everything you would know about them 
+		-> A model <- an instance of the schema 
+		-> We first create the schema and then create the Mongoose model based on that schema
+
+		-> Creating the schema: 
+			-> Our schema is called `personSchema`
+			-> This defines the structure of the document in the MongoDB collection (the properties the person should have)
+			-> We are defining each of the properties that a document of the person will have 
+
+		-> Creating the model: 
+			-> We are creating a Mongoose model named `Person`
+			-> The first argument is the name of the MongoDB collection that the model represents 
+			-> We have linked the myApp.js file to the Mongo database which we created earlier 
+			-> The second argument to this is the schema which defines the structure of documents in the collection 
+		-> This code first defines a Mongoose schema for a `Person` document with specific properties -> and then creates a Mongoose model based on that schema 
+		-> This allows us to interact with the MongoDB collection called "people" using the "Person" model  
+*/
 
 const personSchema = new Schema({
   name: { type: String, required: true },
@@ -11,11 +57,21 @@ const personSchema = new Schema({
 
 let Person = mongoose.model("Person", personSchema);
 
+
+
+
+
+
+
+
+
+
+
 const createAndSavePerson = (done) => {
-  const amir = new Person({
-    name: "Amir",
-    age: 27,
-    favoriteFoods: ["pizza", "latzania", "burger"]
+  const fran = new Person({
+    name: "Fran",
+    age: 23,
+    favoriteFoods: ["dark chocolate", "seeds", "vanilla yogurt"]
   })
   amir.save(function(err, data) {
     if (err) return console.error(err);
