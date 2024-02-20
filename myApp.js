@@ -104,7 +104,6 @@ const createAndSavePerson = (done) => {
   })
 };
 
-// Question 4 
 /*
 	Question 4, creating many instances of the model (creating 'many people')  
 
