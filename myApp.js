@@ -104,20 +104,45 @@ const createAndSavePerson = (done) => {
   })
 };
 
+// Question 4 
+/*
+	Question 4, creating many instances of the model (creating 'many people')  
 
+	This solution at first glance: 
+		-> The process used throughout this section of the course has been: 
+			-> Define a schema <- this created people (e.g including the name and age of the person, we set the attributes which we wanted to store)
+			-> Define a model using the schema
+			-> Create an object from this model <- i.e creating a single person using the model  
+			-> Save the object from this model 
+		-> This part of the question creates many objects from the model, rather than one 
+			-> This is achieved using the Mode.create() method 
+			-> This looks like the way you would define a variable (const = ...)
+			-> The argument to this is an array 
+			-> For each element in this array, we are using the same block of code we used to create a single instance of the model 
+			-> So for each element in the array which is input into the model, we are creating a single person (instance of the model) in the database 
+			-> This saves all of those people to the database 
+				-> This is done using the same error function which is passed into this code as an argument 
+				-> We are logging these errors to make sure that the people are successfully saved to the database
+				-> And if no errors are returned when doing this, then we save this to the database -> we don't save them to the database of people if there are errors returned when doing this 
+				-> This ensures that the entire database is cleanly formatted 
+			-> We are using the same code which the previous question used to create an instance of a person -> except we are passing an entire array of people into that function 
 
-
-
-
-
-
-
-
-
-
-
-
-
+	More technically:
+		-> We are inserting documents into the MongoDB database 
+		-> Each of these people is a document 
+		-> The argument into the function is an array for these multiple people 
+			-> Each of these people is represented as an object 
+		-> The main function we are running is called the callback function 
+			-> There is a function (the second argument) which is run once the block of code is executed 
+			-> It is logging errors to the console in case there is a mistake while the code is being saved 
+		-> When this is done, the callback function done() is used
+			-> This is a callback 
+			-> This handles the result of the asynchronous operation <- the multiple people we are inserting into the database 
+			-> We are notifying the caller when the operation is done and handing asynchronous operations in Node.js 
+		-> We are inserting an array of people into the MongoDB database using Mongoose's Person.create method 
+			-> Once this is done, the done callback is used to handle the result of the operation 
+			-> If there are errors involved when saving this, they will be logged into the console in this stage 
+*/
 
 const createManyPeople = (arrayOfPeople, done) => {
   Person.create(arrayOfPeople, function(err, data) {
@@ -125,6 +150,24 @@ const createManyPeople = (arrayOfPeople, done) => {
     done(null , data);
   }) 
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 const findPeopleByName = (personName, done) => {
   let queryObject = {"name": personName}
