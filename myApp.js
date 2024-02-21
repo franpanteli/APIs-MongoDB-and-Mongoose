@@ -193,30 +193,48 @@ const findPeopleByName = (personName, done) => {
   })
 };
 
+/*
+	Question 6, finding a single person in the database with unique interests 
 
+	This solution at first glance: 
+		-> We are looking for one person in the database 
+		-> The person we are looking for has a unique food element as their favourite 
+		-> To do this, we are using the findOneByFood function
+		-> We are defining a function called findOneByFood, which takes the arguments food and done 
+		-> Similar to the previous database search, we then define a query object 
+			-> This is the form of the object which we want to search for in the database 
+			-> The argument of this is the same as the argument which we are passing into the code which wraps around the entire block of code 
+		-> We then use the Person.findOne method 
+			-> The arguments to this are the query object which we previously setup 
+				-> We are asking the database to find an element, in this form
+				-> The second function to the database search is the error function 
+				-> This is a callback function which will log an error to the console if something goes wrong in our search 
+				-> This will also return done, if the search works as we want it to 
+		-> This is the same approach we used in the previous question, but we are finding a person by one of the food items which they liked, rather than their name 
+			-> The next question is using this process again, but to find the person by their ID in the database <- a person in the database being a document  
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	More technically:
+		-> This is an example of defining a function in JavaScript 
+		-> It finds a single document from the MongoDB database collection 
+		-> Input parameters <- these are `food` and `done`
+			-> `done` is the callback function to handle the result 
+		-> qeuryObject <- this creates a query object using Mongoose syntax 
+			-> This is the condition for the search -> documents in the collection where the `favouriteFoods` array contains `food`
+		-> Database query 
+			-> We are using Mongoose's findOne method to query the 'Person' collectiom -> to find one document 
+			-> It is searching for the one document which matches the 'Person' collection in the MongoDB database 
+		-> Error handling 
+			-> When we are doing this, we are checking if there is an error during the database search 
+			-> In which case this error will be logged to the console 
+		-> Callback 
+			-> This is done using done(null, data) 
+			-> Null is the error argument <- no error 
+			-> Data is the data from the result of the search 
+			-> This is the callback function 
+		-> This entire function is searching for a person based on one of their favourite foods 
+			-> This is a property of the person document in the MongoDB database 
+			-> We are doing this using Mongoose's `findOne` method -> and then passing the result of the search into the callback function called `done`
+*/
 
 const findOneByFood = (food, done) => {
   let queryObject = {favoriteFoods: food}
@@ -224,8 +242,50 @@ const findOneByFood = (food, done) => {
     if (err) return console.error(err);
     done(null , data);
   })
-  
 };
+
+/*
+	Question 7, searching the MongoDB database for a specific person with an ID
+
+	This solution at first glance: 
+		Documents in the database have an ID, this is what we are searching the database by:
+			-> Each of the documents in the MongoDB database has a search ID 
+			-> Each of the elements has an ID -> and we are using the ID to search for the element in the database (for the person who matches that ID)
+			-> The previous question was searching for a unique favourite which a person in the database had
+			-> This is searching for a unique person by their ID in the database
+			-> In both cases we are searching for something which is specific to them -> in one case it is an item they like (the previous question) and in this one it is their ID in the database 
+			-> In the question before this, it was their name we were searching for 
+		
+		We are using the same method for this as in the previous question:
+			-> To search the database
+			-> We first define the query object -> this is the syntax of the thing which we are looking for in the database
+			-> In this case that is a person ID, and in the previous two it was first their name and then a unique item which they liked 
+			-> This is what we are searching the database for, and it's defined as a variable / constant 
+			-> Then we are using the .findOne method to search the database for that queries object 
+			-> Inside this, we are returning the error message if the search doesn't work -> and using the done() callback if it does 
+			-> This is the same process used in the previous three parts of the question, except that we are just querying the database for different items -> the name of the person, a unique item which they like or in this case their unique ID in the database  
+
+	More technically:
+		-> We are defining a function called `findPersonById` <- this is how this is done using JavaScript syntax 
+		-> We are retrieving a person from the MongoDB database, based on the ID of the document which represents them 
+		-> The index of this person is the argument to the function which we are defining 
+		-> The other argument which the function takes is done <- the callback function to handle the result
+		-> Then we define the query object 
+			-> This was created using the Mongoose syntax
+			-> This tells us the condition for the search -> we are looking for documents in the 'Person' collection where the `_id` matches the `personID`
+		-> Then the database query
+			-> We are searching (querying) the database using Mongoose's `findOne` method 
+			-> We are querying the `Person` collection in the connected MongoDB database
+			-> This searches for one document (entry in the database) only which matches the conditions in the `queryObject`
+		-> Error handling 
+			-> This checks if there is an error during the database operation 
+			-> If an error occurs, we log this error to the console 
+		-> We are using the done callback 
+			-> done(null, data) -> we are using `null` as the first (error) argument 
+			-> The result is `data`, if the function finds the query in the MongoDB database 
+		-> This function searches for a person in the 'Person' collection, based on a specified person's ID using Mongoose's `findOne` method 
+		-> The result of this is passed to the provided callback function `done`
+*/
 
 const findPersonById = (personId, done) => {
   let queryObject = {_id: personId}
@@ -234,6 +294,8 @@ const findPersonById = (personId, done) => {
     done(null , data);
   })
 };
+
+// Question 8 
 
 const findEditThenSave = (personId, done) => {
   const foodToAdd = "hamburger";
