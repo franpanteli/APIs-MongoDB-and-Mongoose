@@ -150,23 +150,40 @@ const createManyPeople = (arrayOfPeople, done) => {
   }) 
 };
 
+/*
+	Question 5, searching the MongoDB database of people for specific people (documents)  
 
+	This solution at first glance: 
+		-> We are searching for people in the database by their name 
+		-> We are asking the server to respond with the data which matches this request in array form 
+		-> This entire search request looks like we are defining the value of a constant (variable in js syntax)
+		-> The first line inside this block of code defines another variable 
+			-> This takes the form of the object which we want to return 
+			-> This is a js object with the person's name in string form 
+			-> JSON is a Java object which returns the data when communicating between clients and servers for reasons such as these 
+		-> We then look up the person in that database whose name we want to fill in the returned object we just defined 
+			-> If the person isn't in the database, we return an error message
+			-> This error message is logged to the console in this section of the code 
+			-> If the person is in the database then their name is returned -> in which case we are logging that this is done to the database 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	More technically:
+		-> We are defining a function called `findPeopleByName` that takes two arguments 
+			-> the first is the name to search for and the second is a callback function 
+		-> We create a query object <- this is what the first line inside that block is doing (the one which defines the other variable const)
+			-> This is the general form of the object which we want the database search to return 
+			-> This is returning the documents in the MongoDB collection where the "name" of the elements in that collection match the ones which are being searched for in the code which the entire response to this question is surrounded by 
+			-> We then search the database using Person.find 
+				-> This is a method that searches the database for documents which match the query 
+				-> The first argument specifies the criteria for the search -> searching for documents with a specific `name`
+				-> The second argument is a callback function that will be executed once the search operation is complete
+				-> This function checks for errors which happened during the search -> if it is clean then `done` is call-back with `null` as there were no errors when doing this 
+				-> `done` is the callback function -> this is passed as a parameter to `findPeopleByName`
+					-> This is expected to handle the result of the asynchronous operation -> getting documents from the database based on name 
+					-> This is commonly used in Node.js to handle asynchronous operations and tell the caller when the operation has been completed 
+		-> The purpose of this is to find and retrieve documents in the MongoDB database using Mongoose's `Person.find` method 
+		-> This searches for documents where `name` matches the `personName` field which was entered into it 
+		-> Then we invoke the `done` callback to handle the results of the operation and to pass in the retrieved data 
+*/
 
 const findPeopleByName = (personName, done) => {
   let queryObject = {"name": personName}
@@ -175,6 +192,31 @@ const findPeopleByName = (personName, done) => {
     done(null , data);
   })
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 const findOneByFood = (food, done) => {
   let queryObject = {favoriteFoods: food}
