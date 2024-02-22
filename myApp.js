@@ -393,6 +393,47 @@ const findAndUpdate = (personName, done) => {
   }) 
 };
 
+/*
+	Question 10, removing one of the people from the database based on the ID of the document which represents them in the database 
+
+	What this section of code does:
+		-> We are dealing with a MongoDB database
+		-> Each document in that database represents a person 
+		-> Each document also has a unique ID 
+		-> We are deleting a (singular) person from the database 
+		-> We can do this in one of two ways 
+			-> The first is to search for the ID of the document which represents the person in the database
+			-> The second is to search for some piece of information which is unique to that one person 
+			-> Then once we have them, we delete them from the database, do error handling and if everything is fine then the function which is defining all of this will return the response which deletes that person (document) from the MongoDB database of people 
+
+	How this code works:
+		-> We are searching for the person we want to delete by the ID which represents them in the database
+		-> We are defining a JavaScript function which does all of this, and the first argument to the function is the ID of the person we want to delete:
+			-> The second argument is the done function, which we use for error handling in case the search for the person we are trying to delete from the database fails 
+			-> It is an arrow function 
+
+		-> We first define the query object:
+			-> This is the variable which contains the ID of the person we want to search for in the database, to remove 
+			-> This is in the form of a JSON (JavaScript) object, which we send to the database -> whose value equals the argument of the function 
+		
+		-> We then remove the person from the database:
+			-> We are searching for them in the database by using the .findByIdAndRemove method <- we are searching for them by their unique ID in the database (we could have used the other method called findOneAndRemove, which would find them based on some unique piece of information about them)
+			-> We are telling the function which searches the database using this approach that -> this is the syntax of the result we want to remove, and this is the error function which we want to run for error handling before finishing the entire function which we define here 
+			-> Then we are running the function -> we are doing error handling, and if something goes wrong when trying to search the database for and delete the item, we log the errors when doing this 
+			-> If there are no errors, then we save the result of the function, by using the `done()` callback 
+
+		-> So we have defined a JavaScript function which takes the ID for a document (person) in the MongooseDB database -> and deletes them from the database, assuming that the search for them in it is successful
+
+	Other points:
+		-> It's a JavaScript function, operating on a MongoDB database 
+		-> We remove a person based on the unique ID which represents them in that database 
+		-> The query object is the syntax of the document we want to delete
+			-> We are telling it, this is the syntax of the object we want to remove, find it so we can delete it from the database - and find it using this ID which we pass into the function - as its argument 
+		-> We are using the findByIDAndRemove method to delete them using this
+		-> Error handling and the done callback assuming the function passes the error handling -> so we don't delete someone from the database if the search for them didn't work correctly 
+			-> When defining JavaScript functions, this is commonly the second argument 
+			-> If there's an error when executing the function, then that error is logged back to the console (terminal) using the callback function
+*/
 
 const removeById = (personId, done) => {
   let queryObject = {_id: personId}
@@ -402,6 +443,8 @@ const removeById = (personId, done) => {
   })
 };
 
+// Question 11
+
 const removeManyPeople = (done) => {
   const nameToRemove = "Mary";
   let queryObject = {"name": nameToRemove}
@@ -410,6 +453,8 @@ const removeManyPeople = (done) => {
     done(null, response);
   })
 };
+
+//  Question 12
 
 const queryChain = (done) => {
   const foodToSearch = "burrito";
