@@ -295,7 +295,40 @@ const findPersonById = (personId, done) => {
   })
 };
 
-// Question 8 
+/*
+	Question 8, updating one of the elements in the database with the new favourite of a person
+
+	What this section of code does:
+		-> We are finding and editing information in the MongoDB database
+		-> This is a database of people
+		-> Each of those people is represented by a document in the database 
+		-> findEditThenSave <- this is a JavaScript function which finds a person in the database, then edits the document in the database which represents that person and then saves the change to the database  
+		-> We are editing the database from the backend / server end 
+		-> We are adding "hamburger" to the list of the person's favouriteFoods
+		-> We can search for the person in the database by any of the answers to the three previous questions -> the name of the person, an item which they like that is unique to them in the database, or the ID for the document which represents them in that database 
+		-> We are then saving the document which represents the person with the files that have their preferences 
+
+
+	How this works:
+		-> We are defining a function which finds a person in the database, then edits information about them, then saves that information 
+		-> The arguments of this are the ID of the document which represents the person in the database, and the callback function 
+		-> We define a variable (const) which stores the food we want to add
+		-> Then we have a function 
+			-> This takes the same argument as the overarching function
+			-> The first line in this logs an error message to the console if the person isn't in the database 
+			-> The second line in this adds that element to the document which returns the person
+			-> The last block of code in the embedded function adds the person's updated information to the database 
+
+	Other points:
+		-> It's a MongoDB database
+		-> The person whose data we are changing is represented by an ID we use to search that database -> we are using findPersonById to do this (finding the document in the database by the ID)
+		-> The database is calling back with the information we requested
+		-> `done` is a callback function -> executed once the rest of the code is run 
+			-> The first argument is the error and the second is the result
+		-> We are first storing the value of the thing we want to add to the person's document in a constant -> and then adding it in 
+		-> We are only saving the changes made to the person's document if there are no errors when searching for them -> and hence why we search for errors first
+			-> This was called error handling 
+*/
 
 const findEditThenSave = (personId, done) => {
   const foodToAdd = "hamburger";
@@ -309,6 +342,47 @@ const findEditThenSave = (personId, done) => {
   })
 };
 
+/*
+	Question 9, updating someone's age in the MongoDB database using a different (newer) method as in question 8
+		-> Question 8 did a similar thing, just with a method for older versions
+
+	What this section of code does:
+		-> We are updating a document using mode.findOneAndUpdate()
+		-> The document is an element in the MongoDB database, which represents a person 
+		-> This is a method which works with more modern versions -> the method from the previous question also updated a document, but with a different approach 
+		-> We are searching for an ID and updating the information in the document which is stored at that ID in the MongoDB database 
+		-> We are finding the name of a person and setting the person's age
+		-> We are returning the updated object -> with new: true so that the returned object is the modified document, rather than the default one 
+
+	How this works:
+		-> We are defining a JavaScript function 
+		-> The argument of this is the person whose name we want to edit the document for in the database, and the done function for error handling in the second argument 
+
+		Setting contestants:
+			-> We then define a constant whose variable is a value we want to change in the database 
+			-> We then define another constant which stores the name of the person whose information we want to update in the database <- the name we use is the same as the first argument of the overarching function 
+			-> We have constants both for searching the database for the person whose information we want to update, and for the information we want to update it with (first, age data)
+		
+		Finding and updating their information in the database:
+			-> We then find the person whose information in the database we want to update
+			-> This is done using .findOneAndUpdate, using the syntax which was set out in the question -> with the variables whose values we just defined 
+			-> Inside this, we query for errors -> if there are errors when updating this information, we are logging them to the console and not saving the changes to the database 
+			-> Then if there are no errors, we complete error handling with the done() function which saves the changes to the MongoDB database 
+
+
+	Other points:
+		-> The query object is the object which finds the person by their name -> the object we are searching the database for 
+		-> It's a MongoDB database
+		-> queryObject, {age: ageToSet} <- search for this object, and change the age
+			-> We are using this to define the criteria for the object we want to search for
+		-> {new:true}, function(err, updatedPerson <- we are creating a new document with the information we want to add to it, and then returning that 
+		-> Again checking for the errors is called error handling 
+			-> If the function contains errors, we aren't updating the data in the MongoDB database for the person
+		-> `done` is the callback function <- a function which handles the result 
+		-> We have defined an entire function in JavaScript for the MongoDB database, which takes a person and changes their age in the database 
+			-> The person being a document in the database 
+*/
+
 const findAndUpdate = (personName, done) => {
   const ageToSet = 20;
   let queryObject = {"name": personName}
@@ -317,8 +391,8 @@ const findAndUpdate = (personName, done) => {
     if (err) console.error(err);
     done(null, updatedPerson);
   }) 
-  
 };
+
 
 const removeById = (personId, done) => {
   let queryObject = {_id: personId}
