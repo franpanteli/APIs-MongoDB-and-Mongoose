@@ -443,7 +443,63 @@ const removeById = (personId, done) => {
   })
 };
 
-// Question 11
+/*
+	Question 11, deleting multiple people (documents) from the dataset 
+
+	What this section of code does:
+		-> The previous question was about removing a single person (document) from the MongoDB database of people
+		-> This is removing many people (documents) from the database
+		-> We are defining a JavaScript function to do this 
+		-> The people who we want to remove from the database are all stored in an array
+			-> The variable whose value equals that array is called nameToRemove 
+			-> We are using Model.remove() to remove this array of elements from the database
+			-> Model.remove() sends a JSON object
+		-> The JSON object this returns contains information about the documents (people) that we deleted from the database - not those documents themselves 
+		-> We are also using the done() callback for error handling 
+
+	How this code works:
+		-> We are defining a JavaScript function which is intended to remove many people (documents) from the MongooseDB database 
+		
+		Defining constants:
+			-> The first variable stores the name of the person we want to remove from the MongoDB database
+			-> That's in string form (so you can just type it in)
+			-> The second constant is the string from the previous line, but put into a specific syntax
+			-> This syntax is for a JavaScript (JSON) object, which can interact with the MongoDB database 
+			-> We are taking the string which we want to search the database for in the first variable, and in the second variable we are formatting it into the syntax that would allow us to search the database 
+			-> We have given it the form of the object (the query object) in the database which we want it to search for 
+			-> This is to target the objects in the database which match this syntax 
+      
+		Remove people from the database which match this:
+			-> This is done with the .remove function <- this is for MongoDB databases when interacting with backend servers in a JavaScript environment
+			-> There are two arguments which are passed into this 
+				-> The first is the syntax of the objects which we are querying the database for 
+				-> This is the variable which stores the general form of the element which we are searching the database for, to remove 
+				-> The second argument is a callback function for error handling 
+		
+		Run error handling:
+			-> This is the block of code which is embedded under the .remove method 
+				-> If there are errors when searching the database for people (documents) we want to remove, then the first line in this block logs these to the console 
+				-> If no errors have been produced during this process, then the done() callback function is used 
+				-> This insinuates that the function has passed error handling and returns a JSON (JavaScript) object, containing the status of this deletion from the MongoDB database
+		
+		-> We have just: 
+			-> Taken an array of people
+			-> Passed it into the removeManyPeople function
+			-> Defined a piece of information we want to remove from the dataset
+			-> Put it into the right syntax
+			-> Queried the database for it
+			-> Deleted the person 
+			-> Then saved the changes, assuming no errors were made 
+
+	Other points:
+		-> We are removing multiple people in the same function, we are doing this based on their names
+		-> We are removing people with the same names in the database -> and each of the people is a document in that database 
+		-> We are calling the callback function with the response data 
+		-> We are first telling it the name we want to remove and then the syntax of the data which will contain that name 
+		-> We first find the documents in the database that we want to remove, and then run the function that will remove them - assuming no errors 
+		-> The callback function logs the errors to the control -> but if there are none, then the result of it will be `null`
+		-> We have found and removed multiple people from the MongoDB database by their name -> then called the provided callback function with the response date 
+*/
 
 const removeManyPeople = (done) => {
   const nameToRemove = "Mary";
