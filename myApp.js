@@ -468,7 +468,7 @@ const removeById = (personId, done) => {
 			-> We are taking the string which we want to search the database for in the first variable, and in the second variable we are formatting it into the syntax that would allow us to search the database 
 			-> We have given it the form of the object (the query object) in the database which we want it to search for 
 			-> This is to target the objects in the database which match this syntax 
-      
+
 		Remove people from the database which match this:
 			-> This is done with the .remove function <- this is for MongoDB databases when interacting with backend servers in a JavaScript environment
 			-> There are two arguments which are passed into this 
@@ -510,7 +510,58 @@ const removeManyPeople = (done) => {
   })
 };
 
-//  Question 12
+/*
+	Question 12, changing query helpers to narrow search results <- this is like using 'filters' to search a MongoDB database with JavaScript 
+
+	What this section of code does:
+		-> We are chaining query helpers to narrow search results 
+		-> Error handling functions 
+		-> Chaining syntax 
+		-> The database search is executed when you chain the .exec() method
+		-> The callback has to be passed to the last method 
+		-> Chaining many of these functions together and ending the function with error handling
+		-> The callback has to be passed to the last method 
+		-> There are many query helpers  
+		-> We are modifying the queryChain function 
+		-> We are finding people who like the food given by the variable foodToSearch 
+		-> We are then sorting by name, limiting the results to two documents and hiding their age
+		-> We are chaining the methods .find(), .sort(), select() and .exec()
+		-> Then passing the done(err, data) callback to the exec()
+
+	How this code works:
+		-> The code for this response defines a JavaScript function which changes query helpers to narrow its search results 
+		-> The first two lines of code inside this function:
+			-> The first stores the value of the element in the database which we are searching (querying) the database for 
+			-> We are still working with MongoDB databases 
+			-> The second line defines a constant which searches the database 
+			-> This second constant puts the value stored in the first variable into a specific syntax 
+			-> That is in a JavaScript (JSON) object 
+
+		-> We then search the database:
+			-> We are using the .find method 
+			-> This searches for the data which is stored in the database whose syntax follows that set out in the queryObject variable 
+			-> We are searching for every item in the database which matches that syntax and has the following properties
+			-> Those properties are properties of the documents in the MongoDB database 
+			-> Each of those documents represents people 
+
+		-> We complete the error handling and save the search:
+			-> If there were errors when searching the database, then we log them into the console 
+			-> The function which is used to do this is the same as the second argument in this JavaScript function 
+			-> If there were no errors logged in the process of searching the database, then we return the done callback function without them  
+			
+	Other points:
+		-> This is executing a chain of query operations 
+		-> This is called performing a chained query 
+		-> We are running all of these different filters for the search 
+		-> We are searching for all of the elements in the MongoDB database whose syntax matches that stored in the queryObject variable 
+		-> We are only calling the `done()` function if the query was successful 
+		-> We are first searching for data which matches the syntax of the provided query objects -> then we are applying the chained methods to the query to modify those results 
+		-> The .exec method is used to execute the query 
+			-> This takes a callback function which is executed after the query operation is completed 
+		-> This is for Node.js
+		-> This is an example of a chained query operation for a MongoDB collection 
+		-> We are using filters when searching the database 
+*/
 
 const queryChain = (done) => {
   const foodToSearch = "burrito";
